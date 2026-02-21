@@ -1,0 +1,46 @@
+# Large files (>50MB)
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+*.iso
+*.dmg
+*.pkg
+
+# Media files (often large)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wav
+*.flac
+*.psd
+*.ai
+
+# Node modules (if any)
+node_modules/
+
+# Build artifacts
+dist/
+build/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+~*
+
+# Keep memory folder local (personal notes)
+# Comment out if you want to sync it
+memory/
