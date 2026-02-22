@@ -44,3 +44,6 @@ Thumbs.db
 # Keep memory folder local (personal notes)
 # Comment out if you want to sync it
 memory/
+
+# External repos (cloned separately)
+vera-food/
