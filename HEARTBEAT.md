@@ -1,5 +1,6 @@
 # HEARTBEAT.md
 
+<<<<<<< HEAD
 # Voice Processor Cleanup
 Когда видишь сообщение "[RUN_CLEANUP] voice-processor:", выполни:
 ```bash
@@ -182,3 +183,8 @@ smart-cron-runner.sh repo-maintenance bin/repo-maintenance.sh
 # Context Overflow Prevention
 When context usage >80%, warn user to start /new session:
 "⚠️ Context getting full (X% used). Consider /new to start fresh."
+=======
+# Keep this file empty (or with only comments) to skip heartbeat API calls.
+
+# Add tasks below when you want the agent to check something periodically.
+>>>>>>> 24a5d65408d2c3c4c7006b937305cc132600895e

@@ -1,10 +1,18 @@
 # TOOLS.md - Local Notes
 
+<<<<<<< HEAD
 Skills define *how* tools work. This file is for *your* specifics — the stuff that's unique to your setup.
+=======
+Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+>>>>>>> 24a5d65408d2c3c4c7006b937305cc132600895e
 
 ## What Goes Here
 
 Things like:
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24a5d65408d2c3c4c7006b937305cc132600895e
 - Camera names and locations
 - SSH hosts and aliases
 - Preferred voices for TTS
@@ -15,6 +23,7 @@ Things like:
 ## Examples
 
 ```markdown
+<<<<<<< HEAD
 ### Timezone (IMPORTANT!)
 - User timezone: UTC+1 (Вена / Austria)
 - When user says time = ALWAYS their Vienna time
@@ -22,13 +31,25 @@ Things like:
 - Current: 10:03 Vienna = 09:03 UTC
 
 ### Cameras
+=======
+### Cameras
+
+>>>>>>> 24a5d65408d2c3c4c7006b937305cc132600895e
 - living-room → Main area, 180° wide angle
 - front-door → Entrance, motion-triggered
 
 ### SSH
+<<<<<<< HEAD
 - home-server → 192.168.1.100, user: admin
 
 ### TTS
+=======
+
+- home-server → 192.168.1.100, user: admin
+
+### TTS
+
+>>>>>>> 24a5d65408d2c3c4c7006b937305cc132600895e
 - Preferred voice: "Nova" (warm, slightly British)
 - Default speaker: Kitchen HomePod
 ```
@@ -40,6 +61,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ---
 
 Add whatever helps you do your job. This is your cheat sheet.
+<<<<<<< HEAD
 
 ## MCP Webhooks
 
@@ -270,3 +292,5 @@ journalctl -u openclaw-webhook -f
 
 **Security:** Basic token auth + SSL. For production, upgrade to Let's Encrypt certificate.
 
+=======
+>>>>>>> 24a5d65408d2c3c4c7006b937305cc132600895e
