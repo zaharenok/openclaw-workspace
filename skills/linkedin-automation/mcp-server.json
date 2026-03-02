@@ -1,0 +1,93 @@
+{
+  "name": "linkedin-mcp",
+  "version": "1.0.0",
+  "description": "LinkedIn MCP Server - Monitor posts, comments, and analytics",
+  "command": "python3",
+  "args": [
+    "-m",
+    "linkedin_mcp"
+  ],
+  "env": {
+    "LINKEDIN_SCRIPT": "/root/.openclaw/workspace/skills/linkedin-automation/scripts/linkedin.py",
+    "LINKEDIN_DEBUG": "0"
+  },
+  "tools": [
+    {
+      "name": "read_feed",
+      "description": "Read LinkedIn feed posts",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number",
+            "description": "Number of posts to read",
+            "default": 5
+          }
+        }
+      }
+    },
+    {
+      "name": "check_session",
+      "description": "Check if LinkedIn session is valid",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "analytics",
+      "description": "Get engagement analytics for recent posts",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number",
+            "description": "Number of posts to analyze",
+            "default": 10
+          }
+        }
+      }
+    },
+    {
+      "name": "profile_stats",
+      "description": "Get profile-level statistics",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "scan_likes",
+      "description": "Monitor likes for new ones (since last check)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number",
+            "description": "Number of likes to scan",
+            "default": 15
+          }
+        }
+      }
+    },
+    {
+      "name": "activity",
+      "description": "Scrape someone's activity",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "profileUrl": {
+            "type": "string",
+            "description": "LinkedIn profile URL"
+          },
+          "count": {
+            "type": "number",
+            "description": "Number of activities to scrape",
+            "default": 5
+          }
+        },
+        "required": ["profileUrl"]
+      }
+    }
+  ]
+}

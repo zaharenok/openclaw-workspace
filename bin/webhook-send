@@ -1,0 +1,21 @@
+#!/bin/bash
+# OpenClaw Webhook Client (HTTPS)
+# Usage: webhook-send "message" [source]
+
+WEBHOOK_URL="https://srv1303227.hstgr.cloud:8443/webhook"
+WEBHOOK_TOKEN="openclaw-webhook-2026"
+
+if [ -z "$1" ]; then
+    echo "Usage: webhook-send 'message' [source]"
+    echo "Example: webhook-send 'Check this data' 'monitoring'"
+    exit 1
+fi
+
+MESSAGE="$1"
+SOURCE="${2:-manual}"
+
+curl -k -X POST "$WEBHOOK_URL" \
+  -H "Content-Type: application/json" \
+  -H "X-Webhook-Token: $WEBHOOK_TOKEN" \
+  -d "{\"message\": \"$MESSAGE\", \"source\": \"$SOURCE\"}" \
+  | python3 -m json.tool

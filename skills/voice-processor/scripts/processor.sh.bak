@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+#
+# Voice Processor for OpenClaw Telegram
+# Processes incoming voice messages: transcribe + respond + cleanup
+#
+
+set -euo pipefail
+
+# Configuration
+TRANSCRIPTS_DIR="${HOME}/.openclaw/workspace/skills/voice-processor/transcripts"
+WHISPER_SCRIPT="/home/node/.openclaw/workspace/skills/openai-whisper-api/scripts/transcribe.sh"
+KEEP_HOURS=24
+LOG="${TRANSCRIPTS_DIR}/processor.log"
+
+# Ensure directories exist
+mkdir -p "$TRANSCRIPTS_DIR"
+
+log() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG"
+}
+
+# Process a single voice message
+process_voice() {
+  local audio_file="$1"
+  local message_id="$2"
+  
+  if [[ ! -f "$audio_file" ]]; then
+    log "ERROR: File not found: $audio_file"
+    return 1
+  fi
+
+  log "Processing voice message: $audio_file (msg: $message_id)"
+
+  # Transcribe using Whisper
+  local transcript_file="${TRANSCRIPTS_DIR}/${message_id}.txt"
+  local timestamp=$(date '+%Y%m%d_%H%M%S')
+
+  log "Transcribing..."
+  if "$WHISPER_SCRIPT" "$audio_file" --out "$transcript_file"; then
+    local transcript=$(cat "$transcript_file")
+    log "✓ Transcription complete: ${transcript:0:100}..."
+    
+    # Return transcript for response
+    echo "$transcript"
+    
+    # Schedule cleanup
+    local cleanup_time=$(($(date +%s) + (KEEP_HOURS * 3600)))
+    echo "${cleanup_time}|${audio_file}|${transcript_file}" >> "${TRANSCRIPTS_DIR}/cleanup_queue.txt"
+    log "✓ Scheduled cleanup in ${KEEP_HOURS}h"
+    
+    return 0
+  else
+    log "ERROR: Transcription failed"
+    return 1
+  fi
+}
+
+# Cleanup old files
+cleanup_old_files() {
+  local queue_file="${TRANSCRIPTS_DIR}/cleanup_queue.txt"
+  local current_time=$(date +%s)
+  local temp_queue="${queue_file}.tmp"
+
+  if [[ ! -f "$queue_file" ]]; then
+    return 0
+  fi
+
+  log "Running cleanup check..."
+
+  while IFS='|' read -r cleanup_time audio_file transcript_file; do
+    if [[ $current_time -ge $cleanup_time ]]; then
+      log "Cleaning up: $audio_file + $transcript_file"
+      rm -f "$audio_file" "$transcript_file"
+    else
+      echo "${cleanup_time}|${audio_file}|${transcript_file}" >> "$temp_queue"
+    fi
+  done < "$queue_file"
+
+  mv "$temp_queue" "$queue_file"
+}
+
+# Main
+case "${1:-}" in
+  process)
+    process_voice "$2" "$3"
+    ;;
+  cleanup)
+    cleanup_old_files
+    ;;
+  *)
+    echo "Usage: $0 {process <audio_file> <message_id> | cleanup}" >&2
+    exit 2
+    ;;
+esac

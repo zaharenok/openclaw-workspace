@@ -1,0 +1,62 @@
+{
+  "mcpServers": {
+    "context7": {
+      "description": "Context7 MCP server with API key",
+      "baseUrl": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      }
+    },
+    "brave-search": {
+      "description": "Brave Search MCP with API key",
+      "command": "npx -y @brave/brave-search-mcp-server",
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      }
+    },
+    "obsidian": {
+      "description": "Obsidian MCP with REST API",
+      "command": "/home/node/.local/bin/uvx",
+      "env": {
+        "OBSIDIAN_API_KEY": "${OBSIDIAN_API_KEY}",
+        "OBSIDIAN_HOST": "${OBSIDIAN_HOST}",
+        "OBSIDIAN_PORT": "${OBSIDIAN_PORT}"
+      }
+    },
+    "perplexity": {
+      "description": "Perplexity AI web search MCP (installed)",
+      "command": "perplexity-mcp",
+      "env": {
+        "PERPLEXITY_API_KEY": "${PERPLEXITY_API_KEY}",
+        "PERPLEXITY_MODEL": "${PERPLEXITY_MODEL}"
+      }
+    },
+    "github": {
+      "description": "Official GitHub MCP server",
+      "baseUrl": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_TOKEN}"
+      }
+    },
+    "godaddy": {
+      "description": "GoDaddy domains MCP server",
+      "baseUrl": "https://api.godaddy.com/v1/domains/mcp"
+    },
+    "playwright": {
+      "description": "Microsoft Playwright MCP for browser automation",
+      "command": "npx"
+    },
+    "sequential-thinking": {
+      "description": "Sequential thinking for structured problem-solving",
+      "command": "npx"
+    },
+    "fetch": {
+      "description": "Fetch MCP server (uv tool)",
+      "command": "mcp-server-fetch"
+    },
+    "notebooklm-mcp": {
+      "command": "notebooklm-mcp"
+    }
+  },
+  "imports": []
+}

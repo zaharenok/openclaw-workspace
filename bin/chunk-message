@@ -1,0 +1,76 @@
+#!/bin/bash
+# chunk-message - разбивает длинные сообщения на части для Telegram
+# Использование: ./chunk-message "длинный текст" [optional_session_key]
+
+MAX_LENGTH=4000  # оставляем запас до лимита 4096
+MESSAGE="$1"
+SESSION_KEY="${2:-main}"
+
+if [ ${#MESSAGE} -le $MAX_LENGTH ]; then
+  # Сообщение короткое - отправляем целиком
+  echo "$MESSAGE"
+  exit 0
+fi
+
+echo "⚠️ Сообщение слишком длинное (${#MESSAGE} символов). Разбиваю на части..."
+
+# Разбиваем по предложениям (попробуем сохранить целостность)
+# Сначала пробуем разбить по двойным переносам (параграфам)
+IFS=$'\n' read -rd '' -a paragraphs <<< "$MESSAGE"
+
+chunk=""
+chunk_num=0
+total_chunks=0
+
+# Сначала подсчитаем количество чанков
+for para in "${paragraphs[@]}"; do
+  if [ ${#chunk} -eq 0 ]; then
+    chunk="$para"
+  elif [ $(( ${#chunk} + ${#para} + 2 )) -le $MAX_LENGTH ]; then
+    chunk="$chunk
+$para"
+  else
+    ((total_chunks++))
+    chunk="$para"
+  fi
+done
+
+# Добавляем последний чанк
+if [ ${#chunk} -gt 0 ]; then
+  ((total_chunks++))
+fi
+
+# Теперь отправляем чанки
+chunk=""
+current_chunk=1
+
+for para in "${paragraphs[@]}"; do
+  if [ ${#chunk} -eq 0 ]; then
+    chunk="$para"
+  elif [ $(( ${#chunk} + ${#para} + 2 )) -le $MAX_LENGTH ]; then
+    chunk="$chunk
+$para"
+  else
+    # Отправляем текущий чанк
+    if [ $total_chunks -gt 1 ]; then
+      echo "--- Часть $current_chunk из $total_chunks ---"
+      echo ""
+    fi
+    echo "$chunk"
+    echo ""
+    echo "⏳"
+    sleep 0.5  # небольшая пауза между частями
+    
+    chunk="$para"
+    ((current_chunk++))
+  fi
+done
+
+# Отправляем последний чанк
+if [ ${#chunk} -gt 0 ]; then
+  if [ $total_chunks -gt 1 ]; then
+    echo "--- Часть $current_chunk из $total_chunks (конец) ---"
+    echo ""
+  fi
+  echo "$chunk"
+fi

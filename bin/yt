@@ -1,0 +1,70 @@
+#!/bin/bash
+# YouTube Transcription Command
+# Add to PATH: export PATH="$HOME/.openclaw/workspace/bin:$PATH"
+
+WORKSPACE="/home/node/.openclaw/workspace"
+
+# Show usage
+show_help() {
+  cat << EOF
+🎬 YouTube Transcription
+
+Usage:
+  yt <youtube-url> [language]
+  youtube-transcribe <youtube-url> [language]
+
+Examples:
+  yt "https://youtube.com/watch?v=dQw4w9WgXcQ"
+  yt "https://youtu.be/dQw4w9WgXcQ" "English"
+
+Languages: Russian (default), English, German, etc.
+
+Options:
+  -h, --help     Show this help
+  -v, --version  Show version
+
+EOF
+}
+
+# Parse args
+case "$1" in
+  -h|--help)
+    show_help
+    exit 0
+    ;;
+  -v|--version)
+    echo "YouTube Transcription v1.0"
+    exit 0
+    ;;
+  ""|"-*")
+    echo "❌ Error: YouTube URL required"
+    echo ""
+    show_help
+    exit 1
+    ;;
+esac
+
+VIDEO_URL="$1"
+LANGUAGE="${2:-Russian}"
+
+echo "🎬 Starting YouTube transcription..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📺 URL: $VIDEO_URL"
+echo "🌐 Language: $LANGUAGE"
+echo "⏳ Started: $(date '+%H:%M:%S')"
+echo ""
+
+# Run workflow
+"$WORKSPACE/tools/youtube-workflow.sh" "$VIDEO_URL" "$LANGUAGE"
+
+EXIT_CODE=$?
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+if [ $EXIT_CODE -eq 0 ]; then
+  echo "✅ Finished: $(date '+%H:%M:%S')"
+else
+  echo "❌ Failed with exit code: $EXIT_CODE"
+fi
+
+exit $EXIT_CODE

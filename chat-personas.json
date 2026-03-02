@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "chats": {
+    "manual": {
+      "persona": "code",
+      "emoji": "💻",
+      "autoDetected": true,
+      "detectedFrom": "Код Ассистент"
+    },
+    "-5185525551": {
+      "persona": "code",
+      "emoji": "💻",
+      "manual": true
+    }
+  },
+  "rules": [
+    {
+      "pattern": {},
+      "persona": "code",
+      "emoji": "💻"
+    },
+    {
+      "pattern": {},
+      "persona": "health",
+      "emoji": "🏃"
+    },
+    {
+      "pattern": {},
+      "persona": "business",
+      "emoji": "💼"
+    },
+    {
+      "pattern": {},
+      "persona": "creative",
+      "emoji": "🎨"
+    },
+    {
+      "pattern": {},
+      "persona": "opencode",
+      "emoji": "🔧"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  youtube-transcriber:
+    build:
+      context: .
+      dockerfile: Dockerfile.captions
+    container_name: youtube-transcriber
+    ports:
+      - "8000:8000"
+    environment:
+      - API_KEY=${API_KEY:-your-secret-api-key}
+    restart: unless-stopped
+    # No GPU needed! Much lighter!
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M

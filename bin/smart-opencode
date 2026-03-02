@@ -1,0 +1,47 @@
+#!/bin/bash
+# smart-opencode - ограничивает контекст для больших задач
+
+PROJECT_DIR="${1:-.}"
+TASK="${2}"
+MAX_FILES=10
+MAX_SIZE_KB=100
+
+echo "🔍 Анализирую проект..."
+
+# Найти небольшие файлы
+FILES=$(find "$PROJECT_DIR" -type f \
+  -size -${MAX_SIZE_KB}k \
+  \( -name "*.ts" -o -name "*.js" -o -name "*.py" -o -name "*.go" \) | \
+  head -$MAX_FILES)
+
+if [ -z "$FILES" ]; then
+  echo "❌ Файлы не найдены"
+  exit 1
+fi
+
+echo "📁 Работаем с $(echo "$FILES" | wc -l) файлами"
+
+# Создать temp workspace
+SCRATCH=$(mktemp -d)
+cd $SCRATCH || exit 1
+git init > /dev/null 2>&1
+
+# Скопировать файлы сохраняя структуру
+while IFS= read -r file; do
+  rel_path="${file#$PROJECT_DIR/}"
+  mkdir -p "$(dirname "$rel_path")"
+  cp "$file" "$rel_path"
+done <<< "$FILES"
+
+echo "🚀 Запускаю opencode с ограниченным контекстом..."
+opencode exec "$TASK
+
+ВАЖНО: 
+- Ты видишь только $(echo "$FILES" | wc -l) файлов в текущей директории
+- Не пытайся найти другие файлы - их нет
+- Сначала спроектируй решение, потом вникай в детали
+- Если нужно больше файлов - скажи какие именно"
+
+# Cleanup
+cd /home/node/.openclaw/workspace
+rm -rf "$SCRATCH"

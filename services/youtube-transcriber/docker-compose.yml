@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  youtube-transcriber:
+    build: .
+    container_name: youtube-transcriber
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/root/.cache/huggingface
+      - ./logs:/app/logs
+    environment:
+      - MODEL_SIZE=small
+      - DEVICE=cuda  # or 'cpu' if no GPU
+      - MAX_WORKERS=4
+      - API_KEY=${API_KEY:-your-secret-api-key}
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    # Remove GPU section if running on CPU-only VPS
+    # deploy: section can be deleted for CPU-only
