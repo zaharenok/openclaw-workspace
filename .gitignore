@@ -1,63 +1,3 @@
-<<<<<<< HEAD
-# OpenClaw Workspace Git Ignore
-
-# === Стандартные игноры ===
-node_modules/
-*.log
-.DS_Store
-.env
-.env.local
-*.tmp
-temp/
-tmp/
-.cache/
-dist/
-build/
-
-# === Секреты и конфиги ===
-*.env.github
-.env.*
-ZAI_OPCODE_SETUP.md
-*_SETUP.md
-*_SETUP.txt
-credentials/
-exec-approvals.json
-openclaw.json
-
-# === API ключи ===
-**/service-account.json
-**/credentials.json
-**/keyring/
-**/*-oauth-*.json
-**/*BOT_TOKEN*
-**/*TELEGRAM_TOKEN*
-**/check-voice.js
-**/voice-listener.js
-**/set-webhook.sh
-
-# === N8N вебхуки ===
-**/collect-austria-news-final.py
-**/parse-austria-news.py
-**/youtube-transcribe.sh
-**/youtube-workflow.sh
-
-# === Тестовые файлы ===
-*.test
-temp-*
-
-# === ОТДЕЛЬНЫЕ ПРОЕКТЫ (свои git репозитории) ===
-# Deploy packages
-deploy/
-# Knowledge bases
-knowledge/
-# External repositories
-repos/
-# Clone repositories
-clones/
-
-# === Skills (managed separately) ===
-skills/meta-ads-api-skill/
-=======
 # Large files (>50MB)
 *.zip
 *.tar
@@ -78,7 +18,7 @@ skills/meta-ads-api-skill/
 *.psd
 *.ai
 
-# Node modules (if any)
+# Node modules
 node_modules/
 
 # Build artifacts
@@ -101,11 +41,47 @@ Thumbs.db
 *.temp
 ~*
 
-# Keep memory folder local (personal notes)
-# Comment out if you want to sync it
-memory/
+# === Secrets and configs ===
+*.env.github
+.env.*
+ZAI_OPCODE_SETUP.md
+*_SETUP.md
+*_SETUP.txt
+credentials/
+exec-approvals.json
+openclaw.json
 
-# External repos (cloned separately)
+# === API keys ===
+**/service-account.json
+**/credentials.json
+**/keyring/
+**/*-oauth-*.json
+**/*BOT_TOKEN*
+**/*TELEGRAM_TOKEN*
+**/check-voice.js
+**/voice-listener.js
+**/set-webhook.sh
+
+# === N8N webhooks ===
+**/collect-austria-news-final.py
+**/parse-austria-news.py
+**/youtube-transcribe.sh
+**/youtube-workflow.sh
+
+# === Test files ===
+*.test
+temp-*
+
+# === Separate projects (own git repos) ===
+deploy/
+knowledge/
+repos/
+clones/
 vera-food/
->>>>>>> 24a5d65408d2c3c4c7006b937305cc132600895e
+
+# === Skills (managed separately) ===
+skills/meta-ads-api-skill/
 skills/linkedin-automation/venv/
+
+# === Memory (personal notes, keep local) ===
+memory/
